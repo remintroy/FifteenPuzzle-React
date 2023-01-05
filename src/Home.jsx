@@ -1,5 +1,5 @@
 import Tile from "./components/Tile";
-import './Home.css';
+import "./Home.css";
 
 function App() {
   return (

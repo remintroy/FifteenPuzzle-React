@@ -86,19 +86,24 @@ function Tile() {
   };
 
   return (
-    <div className="TileContainer">
-      {data.map((row, rowIndex) => {
-        return row.map((value, valueIndex) => {
-          return (
-            <div
-              onClick={() => manageMove(value, rowIndex, valueIndex)}
-              key={value}
-            >
-              {value === -1 ? "#" : value}
-            </div>
-          );
-        });
-      })}
+    <div className="MainTileContainer">
+      <div className="statusDisplay">Nice Move !</div>
+      <div className="TileContainer">
+        {data.map((row, rowIndex) => {
+          return row.map((value, valueIndex) => {
+            return (
+              <div
+                className={value === -1 ? "Empty" : ""}
+                onClick={() => manageMove(value, rowIndex, valueIndex)}
+                key={value}
+              >
+                {value === -1 ? "" : value}
+              </div>
+            );
+          });
+        })}
+      </div>
+      <div className="">Nice Move !</div>
     </div>
   );
 }

@@ -1,23 +1,46 @@
-.TileContainer{
-    width: 500px;
-    height: 500px;
-    background-color: rgba(0, 0, 0, 0);
-    display: grid;
-    grid-template-columns: auto auto auto auto auto;
-    grid-template-rows: auto auto auto auto auto;
-    gap: 10px;
-    color: white;
-}
-.TileContainer div{
+.MainTileContainer{
+    width: 100%;
     display: flex;
+    justify-content: baseline;
     align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    background-color: rgb(48, 48, 48);
-    font-weight: bold;
-    font-size: larger;
-    cursor: pointer;
+    flex-direction: column;
+    gap: 20px;
 }
-.TileContainer div.Set{
-    background-color: rgb(66, 90, 59);
+
+.MainTileContainer .statusDisplay{
+    padding: 20px;
+    box-sizing: border-box;
+    width: 90%;
+    border-radius: 5px;
+    background-color: rgba(117, 190, 95, 0.306);
+}
+
+.TileContainer {
+  width: 90%;
+  height: 300px;
+  background-color: rgba(0, 0, 0, 0);
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-rows: auto auto auto auto auto;
+  gap: 10px;
+  color: white;
+}
+.TileContainer div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  border-radius: 5px;
+  background-color: rgb(107, 119, 159);
+  background-color: rgb(48, 48, 48);
+  font-weight: bold;
+  font-size: larger;
+  user-select: none;
+  /* cursor: pointer; */
+}
+.TileContainer div.Set {
+  background-color: rgb(66, 90, 59);
+}
+.TileContainer div.Empty {
+  background-color: transparent;
 }
