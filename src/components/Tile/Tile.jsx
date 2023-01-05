@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Tile.css";
+import { LevelA } from "../../const";
 
-function Tile() {
-  // TODO: randomise initai data
-  const initialData = [
-    [1, 2, 3, 4, 5],
-    [6, 7, 8, 9, 10],
-    [11, 12, 13, 14, 15],
-    [16, 17, 18, -1, 20],
-    [21, 22, 23, 24, 19],
-  ];
-
-  const [data, setData] = useState(initialData);
-  const [movePermission, setMovePermission] = useState(true);
+function Tile({
+  setSuccess,
+  moveCount,
+  setMoveCount,
+  movePermission,
+  setMovePermission,
+  data,
+  setData,
+}) {
+  const [status, setStatus] = useState("");
 
   const nextMoveDirection = (rowIndex, valueIndex) => {
     // check if clicked tile is empty tile
@@ -40,9 +39,23 @@ function Tile() {
         return [rowIndex + 1, valueIndex];
       }
       default: {
-        return [false, `Invalid move`];
+        return [false, `Invalid move :(`];
       }
     }
+  };
+
+  const checkWin = (completed, current) => {
+    // compares each element in finished and current arrays for a unmatch
+    for (let i = 0; i < completed.length; i++) {
+      for (let j = 0; j < completed[i].length; j++) {
+        // check for unmatch
+        if (completed[i][j] !== current[i][j]) {
+          return false;
+        }
+      }
+    }
+    // 2 matrix's match completely
+    return true;
   };
 
   // actual move happens here
@@ -64,10 +77,21 @@ function Tile() {
 
     // updating new values to state
     setData(resultData);
+    setMoveCount((currentCount) => currentCount + 1);
   };
 
+  // works on each move !
+  useEffect(() => {
+    // check for win
+    if (moveCount > 0) {
+      const winned = checkWin(LevelA, data);
+      setSuccess(winned);
+      if (winned) setMovePermission(false);
+    }
+  }, [data]);
+
   // initiates move
-  const manageMove = (value, rowIndex, valueIndex) => {
+  const manageMove = (rowIndex, valueIndex, event) => {
     // console.log("Clicked => ", value, rowIndex, valueIndex);
     const nextMove = nextMoveDirection(rowIndex, valueIndex);
 
@@ -77,24 +101,29 @@ function Tile() {
     if (!movePermission) return;
 
     if (!nextMove[0] && nextMove[0] !== 0) {
-      console.log(nextMove[1]);
+      setStatus(nextMove[1]);
       return;
     }
 
     // moves tile
     moveTile(rowIndex, valueIndex, nextMove[0], nextMove[1]);
+    setStatus("Keep Going !");
   };
 
   return (
     <div className="MainTileContainer">
-      <div className="statusDisplay">Nice Move !</div>
+      <div className="statusDisplay">{status ? status : ":)"}</div>
       <div className="TileContainer">
         {data.map((row, rowIndex) => {
           return row.map((value, valueIndex) => {
             return (
               <div
-                className={value === -1 ? "Empty" : ""}
-                onClick={() => manageMove(value, rowIndex, valueIndex)}
+                className={`${value === -1 ? "Empty" : ""} ${
+                  value !== -1 && value === LevelA[rowIndex][valueIndex]
+                    ? "Done"
+                    : ""
+                }`}
+                onClick={(event) => manageMove(rowIndex, valueIndex, event)}
                 key={value}
               >
                 {value === -1 ? "" : value}
@@ -103,7 +132,7 @@ function Tile() {
           });
         })}
       </div>
-      <div className="">Nice Move !</div>
+      <div className="Move Count mt-4"> {moveCount} Moves</div>
     </div>
   );
 }

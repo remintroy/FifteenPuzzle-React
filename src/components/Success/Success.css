@@ -1,0 +1,23 @@
+.SuccessDisplay{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: #222222;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 35px;
+}
+.SuccessDisplay .BtnCont{
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    border-radius: 5px;
+    gap: 5px;
+    background-color: #15a374;
+    cursor: pointer;
+}
+.SuccessDisplay.Show{
+    display: flex;
+}
